@@ -33,7 +33,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build -- --configuration production
+        run: npm run build -- --configuration production --base-href="/To-Do/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -42,7 +42,7 @@ jobs:
 
   deploy:
     environment:
-      name: github-pages
+      name: deployment
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
