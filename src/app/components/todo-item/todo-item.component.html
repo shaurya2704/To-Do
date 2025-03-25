@@ -1,0 +1,55 @@
+<div class="todo-item animate-slide" [class.completed]="todo.completed">
+  <div class="todo-content">
+    <div class="todo-checkbox" (click)="toggle.emit(todo.id)">
+      <div class="checkbox-inner" [class.checked]="todo.completed">
+        <fa-icon *ngIf="todo.completed" [icon]="faCheck"></fa-icon>
+      </div>
+    </div>
+
+    <div class="todo-details">
+      <div *ngIf="!isEditing" class="todo-info">
+        <h3 class="todo-title" [class.completed]="todo.completed">{{ todo.title }}</h3>
+        <p *ngIf="todo.description" class="todo-description">{{ todo.description }}</p>
+        <div class="todo-meta">
+          <span class="priority-badge" [style.background-color]="getPriorityColor(todo.priority)">
+            {{ todo.priority }}
+          </span>
+          <span class="created-at">
+            Created: {{ todo.created_at | date:'MMM d, y' }}
+          </span>
+        </div>
+      </div>
+
+      <div *ngIf="isEditing" class="edit-form">
+        <input type="text" [(ngModel)]="editedTitle" class="input" placeholder="Task title">
+        <textarea [(ngModel)]="editedDescription" class="input" placeholder="Description (optional)"></textarea>
+        <div class="edit-options">
+          <select [(ngModel)]="editedPriority" class="input">
+            <option value="low">Low Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="high">High Priority</option>
+          </select>
+          <div class="edit-actions">
+            <button class="btn btn-primary" (click)="saveEdit()">
+              <fa-icon [icon]="faCheck"></fa-icon>
+              Save
+            </button>
+            <button class="btn btn-secondary" (click)="cancelEdit()">
+              <fa-icon [icon]="faTimes"></fa-icon>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="todo-actions">
+      <button class="action-btn" (click)="startEditing()" title="Edit">
+        <fa-icon [icon]="faEdit"></fa-icon>
+      </button>
+      <button class="action-btn delete" (click)="delete.emit(todo.id)" title="Delete">
+        <fa-icon [icon]="faTrash"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>

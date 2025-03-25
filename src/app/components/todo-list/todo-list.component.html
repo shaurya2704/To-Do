@@ -1,0 +1,81 @@
+<div class="todo-list">
+  <div class="todo-controls">
+    <div class="filters">
+      <div class="filter-group">
+        <label>
+          <fa-icon [icon]="faFilter"></fa-icon>
+          Status
+        </label>
+        <select [(ngModel)]="filterStatus" (change)="applyFilters()" class="input">
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>
+          <fa-icon [icon]="faSort"></fa-icon>
+          Sort By
+        </label>
+        <select [(ngModel)]="sortBy" (change)="applyFilters()" class="input">
+          <option value="date">Sort by Date</option>
+          <option value="priority">Sort by Priority</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>
+          <fa-icon [icon]="faFilter"></fa-icon>
+          Priority
+        </label>
+        <select [(ngModel)]="filterPriority" (change)="applyFilters()" class="input">
+          <option value="all">All Priorities</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" (click)="showAddForm = !showAddForm">
+      <fa-icon [icon]="faPlus"></fa-icon>
+      Add New Task
+    </button>
+  </div>
+
+  <div *ngIf="showAddForm" class="add-todo-form animate-slide">
+    <h3>Add New Task</h3>
+    <div class="form-group">
+      <input type="text" [(ngModel)]="newTodoTitle" class="input" placeholder="Task title">
+    </div>
+    <div class="form-group">
+      <textarea [(ngModel)]="newTodoDescription" class="input" placeholder="Task description"></textarea>
+    </div>
+    <div class="form-group">
+      <select [(ngModel)]="newTodoPriority" class="input">
+        <option value="low">Low Priority</option>
+        <option value="medium">Medium Priority</option>
+        <option value="high">High Priority</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" (click)="addTodo()">Add Task</button>
+      <button class="btn btn-secondary" (click)="resetForm()">Cancel</button>
+    </div>
+  </div>
+
+  <div class="todos-container">
+    <div *ngIf="filteredTodos.length === 0" class="empty-state">
+      <p>No tasks found. Add a new task to get started!</p>
+    </div>
+
+    <app-todo-item
+      *ngFor="let todo of filteredTodos"
+      [todo]="todo"
+      (toggle)="toggleTodo($event)"
+      (delete)="deleteTodo($event)"
+      (update)="updateTodo($event.id, $event.updates)"
+    ></app-todo-item>
+  </div>
+</div>
