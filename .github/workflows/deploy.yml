@@ -30,19 +30,15 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          cd todo-app
-          npm ci
+        run: npm ci
 
       - name: Build
-        run: |
-          cd todo-app
-          npm run build -- --configuration production
+        run: npm run build -- --configuration production
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './todo-app/dist/todo-app/browser'
+          path: './dist/todo-app/browser'
 
   deploy:
     environment:
