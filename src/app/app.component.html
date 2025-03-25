@@ -177,10 +177,89 @@
   }
 </style>
 
-<app-todo-header></app-todo-header>
-<main class="container">
-  <app-todo-list></app-todo-list>
-</main>
+<div class="app-container">
+  <nav class="navbar" [class.scrolled]="isScrolled">
+    <div class="navbar-content">
+      <div class="navbar-brand">
+        <fa-icon [icon]="faCrown" class="brand-icon"></fa-icon>
+        <span class="brand-text">{{ title }}</span>
+      </div>
+
+      <ng-container *ngIf="currentUser">
+        <div class="navbar-center">
+          <div class="search-bar">
+            <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+            <input type="text" placeholder="Search tasks..." class="search-input">
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="navbar-menu">
+        <ng-container *ngIf="currentUser">
+          <div class="notification-bell" (click)="toggleNotifications()">
+            <fa-icon [icon]="faBell" class="bell-icon"></fa-icon>
+            <span class="notification-badge" *ngIf="notificationCount > 0">{{notificationCount}}</span>
+            
+            <div class="notifications-menu" *ngIf="showNotifications" [@dropdownAnimation]>
+              <div class="dropdown-header">
+                <strong>Notifications</strong>
+              </div>
+              <div class="dropdown-items">
+                <div *ngIf="notifications.length === 0" class="no-notifications">
+                  No new notifications
+                </div>
+                <a *ngFor="let notification of notifications" class="notification-item">
+                  <span>{{notification.message}}</span>
+                  <span class="notification-time">{{notification.time}}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="currentUser; else authButtons">
+          <div class="user-profile" (click)="toggleDropdown()">
+            <div class="avatar">
+              <fa-icon [icon]="faUser"></fa-icon>
+            </div>
+            <span class="user-email">{{ currentUser.email }}</span>
+            <fa-icon [icon]="faChevronDown" class="dropdown-icon"></fa-icon>
+
+            <div class="dropdown-menu" *ngIf="isDropdownOpen" [@dropdownAnimation]>
+              <div class="dropdown-header">
+                <strong>Account Settings</strong>
+              </div>
+              <div class="dropdown-items">
+                <a class="dropdown-item">
+                  <span>Profile</span>
+                </a>
+                <a class="dropdown-item">
+                  <span>Settings</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item logout" (click)="logout()">
+                  <fa-icon [icon]="faSignOutAlt"></fa-icon>
+                  <span>Logout</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #authButtons>
+          <div class="auth-buttons">
+            <a routerLink="/login" class="btn btn-login">Login</a>
+            <a routerLink="/signup" class="btn btn-signup">Sign Up</a>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content" [@fadeAnimation]>
+    <router-outlet></router-outlet>
+  </main>
+</div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
