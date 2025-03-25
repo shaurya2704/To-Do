@@ -1,14 +1,50 @@
 <header class="header animate-fade">
   <div class="container">
     <div class="header-content">
-      <div class="header-title">
-        <fa-icon [icon]="faCrown" class="header-icon"></fa-icon>
-        <h1>Premium Todo List</h1>
+      <div class="header-left">
+        <div class="header-title">
+          <fa-icon [icon]="faCrown" class="header-icon"></fa-icon>
+          <h1>Premium Todo List</h1>
+        </div>
+        <p class="header-subtitle">Organize your tasks with style</p>
       </div>
-      <div class="header-stats">
-        <div class="stat-item">
-          <fa-icon [icon]="faStar" class="stat-icon"></fa-icon>
-          <span class="stat-text">Elevate Your Productivity</span>
+      
+      <div class="header-center">
+        <div class="header-stats">
+          <div class="stat-item">
+            <fa-icon [icon]="faCheckCircle" class="stat-icon"></fa-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{completedTasks}}</span>
+              <span class="stat-label">Completed</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <fa-icon [icon]="faClock" class="stat-icon"></fa-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{pendingTasks}}</span>
+              <span class="stat-label">Pending</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <fa-icon [icon]="faStar" class="stat-icon"></fa-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{priorityTasks}}</span>
+              <span class="stat-label">Priority</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="auth-buttons">
+          <button class="btn btn-login" (click)="onLogin()" [disabled]="isProcessing">
+            <fa-icon [icon]="faSignIn" class="btn-icon" [spin]="isProcessing"></fa-icon>
+            <span>{{ isProcessing ? 'Please wait...' : 'Login' }}</span>
+          </button>
+          <button class="btn btn-signup" (click)="onSignup()" [disabled]="isProcessing">
+            <fa-icon [icon]="faUserPlus" class="btn-icon" [spin]="isProcessing"></fa-icon>
+            <span>{{ isProcessing ? 'Please wait...' : 'Sign Up' }}</span>
+          </button>
         </div>
       </div>
     </div>
